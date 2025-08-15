@@ -41,7 +41,7 @@ sync_saves_to_git() {
         else
             local subdirs
             mapfile -t subdirs < <(get_folders "$VN_PATH/$dir")
-            echo -e "\t\n📂 Subdirectorios en $dir:"
+            echo ""
             for subd in "${subdirs[@]}"; do
                 printf '%-5s📂 %-20s' "" "$subd"
                 if [[ -d "$VN_PATH/$dir/$subd/data" ]]; then
