@@ -41,20 +41,21 @@ sync_saves_to_git() {
         else
             local subdirs
             mapfile -t subdirs < <(get_folders "$VN_PATH/$dir")
+            echo -e "%t\n📂 Subdirectorios en $dir:"
             for subd in "${subdirs[@]}"; do
-                printf '\n%-10s📂 %-20s' "" "$subd"
+                printf '%-10s📂 %-20s' "" "$subd"
                 if [[ -d "$VN_PATH/$dir/$subd/data" ]]; then
                     if [[ -d "$VN_PATH/$dir/$subd/data/game/saves" ]]; then
                         if rsync -a "$VN_PATH/$dir/$subd/data/game/saves/" "$GIT_PATH/$dir/$subd/" > /dev/null 2>&1; then
                             printf '✅ correcto\n'
                         else
-                            printf '❌ Error al sincronizar %s/%s' "$dir" "$subd"
+                            printf '❌ Error al sincronizar %s/%s\n' "$dir" "$subd"
                         fi
                     else
-                        printf '❌ Error: No se encontró saves en %s/%s' "$dir" "$subd"
+                        printf '❌ Error: No se encontró saves en %s/%s\n' "$dir" "$subd"
                     fi
                 else
-                    printf '❌ Error: No se encontró data en %s/%s' "$dir" "$subd"
+                    printf '❌ Error: No se encontró data en %s/%s\n' "$dir" "$subd"
                 fi
             done
         fi
