@@ -29,16 +29,30 @@ sync_saves_to_git() {
     for dir in "${novelas[@]}"; do
         printf '📂 %-20s ' "$dir"
         if [[ -d "$VN_PATH/$dir/data" ]]; then
-            rsync -a "$VN_PATH/$dir/data/game/saves/" "$GIT_PATH/$dir/" > /dev/null 2>&1 || echo "❌ Error al sincronizar $dir"
-            printf '✅ correcto\n'
+            if [[ -d "$VN_PATH/$dir/data/game/saves" ]]; then
+                if rsync -a "$VN_PATH/$dir/data/game/saves/" "$GIT_PATH/$dir/" > /dev/null 2>&1; then
+                    printf '✅ correcto\n'
+                else
+                    printf '❌ Error al sincronizar %s\n' "$dir"
+                fi
+            else
+                printf '❌ Error: No se encontró saves en %s\n' "$dir"
+            fi
         else
             local subdirs
             mapfile -t subdirs < <(get_folders "$VN_PATH/$dir")
             for subd in "${subdirs[@]}"; do
-                printf '📂 %-20s ' "$subd"
+                printf '%-10s📂 %-20s ' "" "$subd"
                 if [[ -d "$VN_PATH/$dir/$subd/data" ]]; then
-                    rsync -a "$VN_PATH/$dir/$subd/data/game/saves/" "$GIT_PATH/$dir/$subd/" > /dev/null 2>&1 || echo "❌ Error al sincronizar $dir/$subd"
-                    printf '✅ correcto\n'
+                    if [[ -d "$VN_PATH/$dir/$subd/data/game/saves" ]]; then
+                        if rsync -a "$VN_PATH/$dir/$subd/data/game/saves/" "$GIT_PATH/$dir/$subd/" > /dev/null 2>&1; then
+                            printf '✅ correcto\n'
+                        else
+                            printf '❌ Error al sincronizar %s/%s\n' "$dir" "$subd"
+                        fi
+                    else
+                        printf '❌ Error: No se encontró saves en %s/%s\n' "$dir" "$subd"
+                    fi
                 else
                     printf '❌ Error: No se encontró data en %s/%s\n' "$dir" "$subd"
                 fi
