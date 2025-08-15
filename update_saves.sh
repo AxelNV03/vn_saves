@@ -43,7 +43,7 @@ sync_saves_to_git() {
             mapfile -t subdirs < <(get_folders "$VN_PATH/$dir")
             echo ""
             for subd in "${subdirs[@]}"; do
-                printf '├── 📂 %-20s' "$subd"
+                printf '└── 📂 %-21s' "$subd"
                 if [[ -d "$VN_PATH/$dir/$subd/data" ]]; then
                     if [[ -d "$VN_PATH/$dir/$subd/data/game/saves" ]]; then
                         if rsync -a "$VN_PATH/$dir/$subd/data/game/saves/" "$GIT_PATH/$dir/$subd/" > /dev/null 2>&1; then
