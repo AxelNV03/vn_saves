@@ -42,24 +42,24 @@ sync_saves_to_git() {
             local subdirs
             mapfile -t subdirs < <(get_folders "$VN_PATH/$dir")
             for subd in "${subdirs[@]}"; do
-                printf '%-10s📂 %-20s\n' "" "$subd"
+                printf '\n%-10s📂 %-20s' "" "$subd"
                 if [[ -d "$VN_PATH/$dir/$subd/data" ]]; then
                     if [[ -d "$VN_PATH/$dir/$subd/data/game/saves" ]]; then
                         if rsync -a "$VN_PATH/$dir/$subd/data/game/saves/" "$GIT_PATH/$dir/$subd/" > /dev/null 2>&1; then
                             printf '✅ correcto\n'
                         else
-                            printf '❌ Error al sincronizar %s/%s\n' "$dir" "$subd"
+                            printf '❌ Error al sincronizar %s/%s' "$dir" "$subd"
                         fi
                     else
-                        printf '❌ Error: No se encontró saves en %s/%s\n' "$dir" "$subd"
+                        printf '❌ Error: No se encontró saves en %s/%s' "$dir" "$subd"
                     fi
                 else
-                    printf '❌ Error: No se encontró data en %s/%s\n' "$dir" "$subd"
+                    printf '❌ Error: No se encontró data en %s/%s' "$dir" "$subd"
                 fi
             done
         fi
     done
-    echo -e "\nSincronización de saves completada.\n"
+    echo -e "\n✅ Sincronización local de saves completada.\n"
 
     # Inicializar repositorio solo si no existe
     if [[ ! -d "$GIT_PATH/.git" ]]; then
@@ -78,7 +78,7 @@ sync_saves_to_git() {
     git -C "$GIT_PATH" push origin main || { echo "Error al hacer push"; exit 1; }
 
     # Mostrar mensaje de confirmación
-    echo "Sincronización completada."
+    echo "✅ Sincronización completada."
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------
