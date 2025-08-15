@@ -59,7 +59,7 @@ sync_saves_to_git() {
             done
         fi
     done
-    echo -e "\n✅ Sincronización local de saves completada.\n"
+    echo -e "\n\n✅ Sincronización local de saves completada.\n"
 
     # Inicializar repositorio solo si no existe
     if [[ ! -d "$GIT_PATH/.git" ]]; then
