@@ -119,5 +119,5 @@ get_folders() {
 
 # Logica de sincronización
 sync_saves_to_git
-sync_saves_git_to_local
+# sync_saves_git_to_local
 
