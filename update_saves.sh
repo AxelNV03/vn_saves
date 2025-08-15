@@ -78,7 +78,7 @@ sync_saves_to_git() {
     git -C "$GIT_PATH" push origin main || { echo "Error al hacer push"; exit 1; }
 
     # Mostrar mensaje de confirmación
-    echo "✅ Sincronización completada."
+    echo -e "\n✅ Sincronización completada."
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------
