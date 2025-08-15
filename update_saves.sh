@@ -27,7 +27,7 @@ sync_saves_to_git() {
     # Sincronizar carpetas del repositorio
     echo -e "\nSincronizando saves...\n"
     for dir in "${novelas[@]}"; do
-        printf '📂 %-20s ' "$dir"
+        printf '📂 %-25s ' "$dir"
         if [[ -d "$VN_PATH/$dir/data" ]]; then
             if [[ -d "$VN_PATH/$dir/data/game/saves" ]]; then
                 if rsync -a "$VN_PATH/$dir/data/game/saves/" "$GIT_PATH/$dir/" > /dev/null 2>&1; then
