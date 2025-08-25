@@ -81,8 +81,8 @@ menu() {
     echo "=============================="
     echo "  📂 Sincronización de saves  "
     echo "=============================="
-    echo "1) Cargar saves locales a git"
     echo "0) Importar saves desde git"
+    echo "1) Cargar saves locales a git"
     echo "q) Salir"
     echo "------------------------------"
     read -rp "Elige una opción: " opcion
@@ -97,7 +97,7 @@ menu() {
         0)
             echo -e "\n⬇️  Importando saves desde git...\n"
             mapfile -t list < <(get_folders "$GIT_PATH")   # Novelas en git
-            git_op 1
+            git_op 1; echo "✅ Importación completa"
             sync 0
             ;;
         q|Q)
