@@ -65,12 +65,17 @@ sync_dirs(){
 }
 # ------------------------------------------------------------------------------------------------------------------------------
 git_op(){
-    [[ "$1" != 1 ]] && { git -C "$GIT_PATH" pull; return 0; }
+    if [[ "$1" != 1 ]]; then
+        # Intentar hacer un pull sin detener el script si no hay cambios
+        git -C "$GIT_PATH" pull || echo "No hay cambios para traer."
+        return 0
+    fi
     git -C "$GIT_PATH" init
     git -C "$GIT_PATH" add .
     git -C "$GIT_PATH" commit -m "Saves del $(date +'%d/%m/%y')"
     git -C "$GIT_PATH" push -u origin main
 }
+
 # ------------------------------------------------------------------------------------------------------------------------------
 menu() {
     echo "=============================="
