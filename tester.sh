@@ -92,12 +92,12 @@ menu() {
             echo -e "\n➡️  Cargando saves locales a git...\n"
             mapfile -t list < <(get_folders "$VN_PATH")        # Novelas locales
             sync 1
-            git_op 0
+            git_op 1
             ;;
         0)
             echo -e "\n⬇️  Importando saves desde git...\n"
             mapfile -t list < <(get_folders "$GIT_PATH")   # Novelas en git
-            git_op 1; echo -e "\n✅ Importación completa\n"
+            git_op 0; echo -e "\n✅ Importación completa\n"
             sync 0
             ;;
         q|Q)
