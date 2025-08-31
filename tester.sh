@@ -97,7 +97,7 @@ menu() {
         0)
             echo -e "\n⬇️  Importando saves desde git...\n"
             mapfile -t list < <(get_folders "$GIT_PATH")   # Novelas en git
-            git_op 1; echo "✅ Importación completa"
+            git_op 1; echo -e "\n✅ Importación completa\n"
             sync 0
             ;;
         q|Q)
