@@ -116,3 +116,4 @@ git_pull(){
 mapfile -t local_novels < <(get_folders "$vn_path") 
 mapfile -t git_novels < <(get_folders "$git_path")
 
+sync_all 2

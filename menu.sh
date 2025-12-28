@@ -25,18 +25,26 @@ run_action(){
 
   notify_vn normal "$title" "Iniciando…"
 
-  # Guardar salida para debug (por si lo ejecutas sin terminal)
   if "$@" >"$log" 2>&1; then
-    notify_vn normal "$title" "✅ Listo"
+    # Contar resultados (según tus mensajes)
+    local ok missing
+    ok="$(grep -c "✅ correcto" "$log" 2>/dev/null || true)"
+    missing="$(grep -c "❌ No existe" "$log" 2>/dev/null || true)"
+
+    if (( missing > 0 )); then
+      notify_vn normal "$title" "✅ OK: $ok  |  ⚠️ No existen en local: $missing\nDetalles en /tmp/vn_saves.log"
+    else
+      notify_vn normal "$title" "✅ OK: $ok"
+    fi
     return 0
   else
-    # Muestra un resumen corto y deja el log completo en /tmp
     local tailmsg
     tailmsg="$(tail -n 12 "$log" 2>/dev/null || true)"
     notify_vn critical "$title" $'❌ Falló\n\n'"$tailmsg"$'\n\nLog: /tmp/vn_saves.log'
     return 1
   fi
 }
+
 
 menu(){
   choice=$(printf "%s\n" \
