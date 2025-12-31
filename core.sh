@@ -87,6 +87,9 @@ sync_dirs(){
 # Push de cambios en el repositorio de saves
 # ==============================================================================================================================
 git_push(){
+
+    cd "$git_path" || return 1
+    
     # No hacer commit si no hay cambios
     if git diff --quiet && git diff --cached --quiet; then
         echo "ℹ️  No hay cambios para commitear"
@@ -115,5 +118,3 @@ git_pull(){
 # Mapear novelas (Local y Git)
 mapfile -t local_novels < <(get_folders "$vn_path") 
 mapfile -t git_novels < <(get_folders "$git_path")
-
-sync_all 2
