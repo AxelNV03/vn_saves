@@ -87,17 +87,16 @@ sync_dirs(){
 # Push de cambios en el repositorio de saves
 # ==============================================================================================================================
 git_push(){
-
     cd "$git_path" || return 1
-    
-    # No hacer commit si no hay cambios
-    if git diff --quiet && git diff --cached --quiet; then
+
+    # No hacer commit si no hay cambios (tracked + untracked)
+    if [[ -z "$(git status --porcelain)" ]]; then
         echo "ℹ️  No hay cambios para commitear"
         return 0
     fi
 
     git add .
-    git commit -m "Actualización de saves $(date '+%Y-%m-%d %H:%M:%S')"
+    git commit -m "Actualización de saves $(date '+%Y-%m-%d %H:%M:%S')" || return 0
     git push origin main
     echo "✅ Push completado"
 }
