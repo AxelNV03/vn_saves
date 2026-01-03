@@ -54,6 +54,7 @@ start_novel(){
   local choice folder subd game
   local vn_path="$HOME/.VN"
 
+  while true; do
     mapfile -t local_novels < <(get_folders "$vn_path")
 
     # Selección de novela
@@ -87,7 +88,7 @@ start_novel(){
       subd="${choice#🧩 }"
       game="$(find "$vn_path/$folder/$subd/data" -maxdepth 1 -type f -name '*.sh' -print -quit)"
     fi
-
+  
     # Validar launcher
     if [[ -z "${game:-}" ]]; then
       notify-send -a "VN" -u critical "No se encontró launcher" "$folder"
@@ -99,11 +100,13 @@ start_novel(){
     chmod +x "$game" 2>/dev/null || true
     exec bash "$game"
     return 0
+  done
 }
 # ==============================================================================================================================
 # Función para abrir el menú
 # ==============================================================================================================================
 menu(){
+  while true; do
     choice=$(printf "%s\n" \
       "📥 Sincronizar: Git → Local" \
       "📤 Sincronizar: Local → Git" \
@@ -128,6 +131,7 @@ menu(){
         exit 0
         ;;
     esac
+  done
 }
 # ==============================================================================================================================
 # Función para sincronizar todas las novelas (Funciona Ya no tocar)
