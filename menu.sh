@@ -52,7 +52,7 @@ run_action(){
 # ==============================================================================================================================
 start_novel(){
   local choice folder subd game
-  local vn_path="$HOME/.VN"
+  local vn_path="$HOME/.vn"
 
   while true; do
     mapfile -t local_novels < <(get_folders "$vn_path")
