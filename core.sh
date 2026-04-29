@@ -89,15 +89,43 @@ sync_dirs(){
 git_push(){
     cd "$git_path" || return 1
 
-    # No hacer commit si no hay cambios (tracked + untracked)
+    # Verificar que sea repo git
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "❌ No estás dentro de un repositorio Git"
+        return 1
+    fi
+
+    # No hacer nada si no hay cambios
     if [[ -z "$(git status --porcelain)" ]]; then
         echo "ℹ️  No hay cambios para commitear"
         return 0
     fi
 
-    git add .
-    git commit -m "Actualización de saves $(date '+%Y-%m-%d %H:%M:%S')" || return 0
-    git push origin main
+    # Agrega TODO: modificados, nuevos y borrados
+    git add -A
+
+    # Si después de agregar no hay nada staged, salir
+    if git diff --cached --quiet; then
+        echo "ℹ️  No hay cambios preparados para commit"
+        return 0
+    fi
+
+    git commit -m "Actualización de saves $(date '+%Y-%m-%d %H:%M:%S')" || {
+        echo "❌ Error al hacer commit"
+        return 1
+    }
+
+    # Traer cambios remotos antes de subir, para evitar atorarse si hay cambios en GitHub
+    git pull --rebase origin main || {
+        echo "❌ Error al sincronizar con origin/main"
+        return 1
+    }
+
+    git push origin main || {
+        echo "❌ Error al hacer push"
+        return 1
+    }
+
     echo "✅ Push completado"
 }
 # ==============================================================================================================================
@@ -117,3 +145,6 @@ git_pull(){
 # Mapear novelas (Local y Git)
 mapfile -t local_novels < <(get_folders "$vn_path") 
 mapfile -t git_novels < <(get_folders "$git_path")
+
+
+git_push
