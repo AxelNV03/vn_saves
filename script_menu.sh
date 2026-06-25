@@ -98,7 +98,8 @@ iniciar_novela(){
         chmod +x "$launcher" 2>/dev/null || true
 
         bash "$launcher"
-        return 0
+        
+        exit 0
     done
 }
 # ==============================================================================================================================
@@ -126,7 +127,7 @@ menu(){
 
             "▶ Ejecutar novela")
                 notificaciones "normal" "Ejecutar novela" "Abriendo lista de juegos…"
-                inicar_novela
+                iniciar_novela
             ;;
             
             *)
