@@ -147,4 +147,4 @@ mapfile -t local_novels < <(get_folders "$vn_path")
 mapfile -t git_novels < <(get_folders "$git_path")
 
 
-git_push
+# git_push
